@@ -45,6 +45,19 @@ def calcular_total(lista_pedidos):
     for ped in lista_pedidos:
         total += ped["subtotal"]
     return total
+
+def desconto(valor_total,fid_cliente):
+    if fid_cliente == 's' and valor_total >= 100:
+        valor_final = valor_total - (valor_total * 0.2)
+        return valor_final
+    elif fid_cliente == 'n' and valor_total >= 100:
+        valor_final = valor_total - (valor_total * 0.10)
+        return valor_final
+    elif fid_cliente == 's' and valor_total <= 100:
+        valor_final = valor_total - (valor_total * 0.05)
+        return valor_final
+    return "Nenhum desconto aplicado!"
+         
     
 #Menu principal
 while True:
@@ -100,6 +113,10 @@ while True:
             nome_cliente = input("Informe seu nome: ").capitalize().strip()
             codigo = nome_cliente[0:3].upper() + str(quant_item)
             fid_cliente = input("Você possui cartão fidelidade? (s/n) :").lower()
+            valor_total = calcular_total(pedido_cliente)
+            print(desconto(valor_total, fid_cliente))
+    
+            
                 
             
             

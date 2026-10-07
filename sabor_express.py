@@ -98,7 +98,7 @@ while True:
             input("Digite ENTER para voltar ao menu e finalizar o pedido!")
         case 3:
             nome_cliente = input("Informe seu nome: ").capitalize().strip()
-            codigo = nome_cliente[0:3].upper() + quant_item
+            codigo = nome_cliente[0:3].upper() + str(quant_item)
             fid_cliente = input("Você possui cartão fidelidade? (s/n) :").lower()
                 
             

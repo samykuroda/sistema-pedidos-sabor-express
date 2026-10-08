@@ -7,8 +7,8 @@ from rich.table import Table
 import time
 
 import os
-import emoji
 os.system('cls')
+
 #lista com os lanches cadastrados no sistema
 cardapio = [
     {"lanche":"clássico burguer", "tamanho":"P", "preco":18},
@@ -53,10 +53,10 @@ def desconto(valor_total,fid_cliente):
     elif fid_cliente == 'n' and valor_total >= 100:
         valor_final = valor_total - (valor_total * 0.10)
         return valor_final
-    elif fid_cliente == 's' and valor_total <= 100:
+    elif fid_cliente == 's' and valor_total < 100:
         valor_final = valor_total - (valor_total * 0.05)
         return valor_final
-    return "Nenhum desconto aplicado!"
+    return valor_total
          
     
 #Menu principal
@@ -120,7 +120,7 @@ while True:
                 input("Digite ENTER para voltar ao menu e fazer seu pedido...")
             else:    
                 nome_cliente = input("Informe seu nome: ").capitalize().strip()
-                codigo = nome_cliente[0:3].upper() + str(quant_item)
+                codigo = nome_cliente[0:3].upper() + str(len(pedido_cliente))
                 fid_cliente = input("Você possui cartão fidelidade? (s/n): ").lower()
                 valor_total = calcular_total(pedido_cliente)
                 print()
@@ -135,7 +135,7 @@ while True:
     preço unitário: {item['preco_item']}""")
                 print(f"""
     Total bruto: {valor_total:.2f}
-    Valor com desconto: {desconto(valor_total, fid_cliente)}
+    Valor com desconto: {desconto(valor_total, fid_cliente):.2f}
     
         * PEDIDO FINALIZADO!""")
                 pedido_cliente.clear()

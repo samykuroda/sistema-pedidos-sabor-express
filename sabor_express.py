@@ -35,7 +35,6 @@ cardapio = [
 pedido_cliente = []
 
 #function calcular subtotal
-
 def calcular_subtotal(preco_item, quant_item):
     subtotal = preco_item * quant_item
     return subtotal
@@ -61,6 +60,7 @@ def desconto(valor_total,fid_cliente):
     
 #Menu principal
 while True:
+    os.system('cls')
     console = Console()
     tabela = Table(title = "Food-truck Sabor Express")
     tabela.add_column("MENU PRINCIPAL")
@@ -73,6 +73,7 @@ while True:
     
     match opcao:
         case 1:
+            os.system("cls")
             coleta_pedido_cliente = int(input("Digite quantos itens serão adicionados no pedido: "))
             for item in range(1,coleta_pedido_cliente+1):
                 nome_item = input(f"Nome do {item}º lanche/bebida: ").lower().strip()
@@ -99,22 +100,47 @@ while True:
                 
             input("Digite ENTER para voltar ao menu e finalizar o pedido!")
         case 2:
+            os.system('cls')
             if pedido_cliente == []:
                 print("Ainda não há itens no carrinho")
                 input("Digite ENTER para voltar ao menu e fazer seu pedido...")
-            for ped in pedido_cliente:
-                print(f"""
+            else:
+                for ped in pedido_cliente:
+                    print(f"""
     Item: {ped['lanche']}, {ped['tamanho']} ({ped['quantidade']})
     preço: R$ {ped['preco_item']}
     subtotal: R$ {ped['subtotal']}""")
-            print(f"total do pedido: R$ {calcular_total(pedido_cliente)}")
-            input("Digite ENTER para voltar ao menu e finalizar o pedido!")
+                print(f"total do pedido: R$ {calcular_total(pedido_cliente)}")
+                input("Digite ENTER para voltar ao menu e finalizar o pedido!")
         case 3:
-            nome_cliente = input("Informe seu nome: ").capitalize().strip()
-            codigo = nome_cliente[0:3].upper() + str(quant_item)
-            fid_cliente = input("Você possui cartão fidelidade? (s/n) :").lower()
-            valor_total = calcular_total(pedido_cliente)
-            print(desconto(valor_total, fid_cliente))
+            os.system('cls')
+            if pedido_cliente == []:
+                print("Ainda não há itens no carrinho")
+                input("Digite ENTER para voltar ao menu e fazer seu pedido...")
+            else:    
+                nome_cliente = input("Informe seu nome: ").capitalize().strip()
+                codigo = nome_cliente[0:3].upper() + str(quant_item)
+                fid_cliente = input("Você possui cartão fidelidade? (s/n): ").lower()
+                valor_total = calcular_total(pedido_cliente)
+                print()
+                print("--------   RECIBO   --------")
+                print("Cliente:",nome_cliente)
+                print(codigo)
+                print("Cartão fidelidade:",fid_cliente)
+                print("=" * 29)
+                for item in pedido_cliente:
+                    print(f"""
+    Item: {item["lanche"]}, {item["tamanho"]} ({item["quantidade"]})
+    preço unitário: {item['preco_item']}""")
+                print(f"""
+    Total bruto: {valor_total:.2f}
+    Valor com desconto: {desconto(valor_total, fid_cliente)}
+    
+        * PEDIDO FINALIZADO!""")
+                pedido_cliente.clear()
+                input("Digite ENTER para voltar ao menu!")
+        case 4:
+            ...
     
             
                 

@@ -4,6 +4,7 @@
 from rich import print
 from rich.console import Console
 from rich.table import Table
+import time
 
 import os
 import emoji
@@ -140,7 +141,13 @@ while True:
                 pedido_cliente.clear()
                 input("Digite ENTER para voltar ao menu!")
         case 4:
-            ...
+            os.system("cls")
+            for i in range(3):
+                print(".", end="")
+                time.sleep(1)
+            print("Saindo")
+            break
+
     
             
                 

@@ -70,20 +70,40 @@ while True:
     tabela.add_row("3. Finalizar pedido")
     tabela.add_row("4. Sair")
     console.print(tabela)
-    opcao = int(input("Digite a opção desejada: "))
+
+    try:
+        opcao = int(input("Digite a opção desejada: "))
+    except ValueError:
+        continue
     
     match opcao:
         case 1:
             os.system("cls")
-            coleta_pedido_cliente = int(input("Digite quantos itens serão adicionados no pedido: "))
-            for item in range(1,coleta_pedido_cliente+1):
+            try:
+                coleta_pedido_cliente = int(input("Digite quantos itens serão adicionados no pedido: "))
+            except ValueError:
+                print("Digite um número válido!")
+                input("ENTER para voltar ao menu...")
+                continue
+
+            for item in range(1, coleta_pedido_cliente + 1):
                 nome_item = input(f"Nome do {item}º lanche/bebida: ").lower().strip()
-                tamanho_item = input("Tamanho do lanche (P,M ou G): ").upper()
-                quant_item = int(input(f"Digite a quantidade desejada de {nome_item}: "))
-                
+                tamanho_item = input("Tamanho do lanche (P,M ou G): ").upper().strip()
+
+                try:
+                    quant_item = int(input(f"Digite a quantidade desejada de {nome_item}: "))
+                except ValueError:
+                    print("Quantidade inválida, item ignorado.")
+                    continue
+
+                preco_item = None  # reseta a cada item
                 for i in range(len(cardapio)):
                     if cardapio[i]["lanche"] == nome_item and cardapio[i]["tamanho"] == tamanho_item:
                         preco_item = cardapio[i]["preco"]
+
+                if preco_item is None:
+                    print("Item ou tamanho não encontrado no cardápio, item ignorado.")
+                    continue
                 
                 subtotal = calcular_subtotal(preco_item, quant_item)
                 
@@ -121,7 +141,9 @@ while True:
             else:    
                 nome_cliente = input("Informe seu nome: ").capitalize().strip()
                 codigo = nome_cliente[0:3].upper() + str(len(pedido_cliente))
-                fid_cliente = input("Você possui cartão fidelidade? (s/n): ").lower()
+                fid_cliente = input("Você possui cartão fidelidade? (s/n): ").lower().strip()
+                while fid_cliente not in ("s", "n"):
+                    fid_cliente = input("Resposta inválida. Digite s ou n: ").lower().strip()
                 valor_total = calcular_total(pedido_cliente)
                 print()
                 print("--------   RECIBO   --------")
@@ -147,7 +169,6 @@ while True:
                 time.sleep(1)
             print("Saindo")
             break
-
     
             
                 
